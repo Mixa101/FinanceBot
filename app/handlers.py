@@ -39,8 +39,8 @@ async def cmd_start(message: Message, state: FSMContext):
 async def register(message: Message, state: FSMContext):
     moneys = int(message.text)
     with Session() as session:
-        user = Finances(id = message.from_user.id, moneys=moneys) # создаем пользователя
-        session.add(user)
+        user = session.query(Finances).filter(Finances.id == message.from_user.id).first()
+        user.moneys = moneys
         session.commit()
     await message.answer(f'отлично ваш бюджет : {moneys}', reply_markup=kb.main_keyboard)
     await state.clear()
