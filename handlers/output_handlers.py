@@ -13,13 +13,16 @@ async def show_money_cmd(message:Message):
     output_text = []
     with Session() as session:
         user = session.query(Finances).filter(Finances.id == message.from_user.id).first()
-        goal_money = user.goal_sum - user.moneys
-        budget = Text('you\'re budget is ', Bold(user.moneys))
-        if goal_money > 0:
-            goal_text = Text('for reach the goal you need ', Bold(goal_money))
+        if user.goal_sum:
+            goal_money = user.goal_sum - user.moneys
+            if goal_money > 0:
+                goal_text = Text('for reach the goal you need ', Bold(goal_money))
+            else:
+                goal_text = Text('you have all moneys to buy your goal')
         else:
-            goal_text = Text('you have all moneys to buy your goal')
-            
+            goal_text = Text('there is no goals')
+        budget = Text('you\'re budget is ', Bold(user.moneys))
+
         output_text = as_list(budget, goal_text, sep='\n')
 
     await message.answer(**output_text.as_kwargs())
