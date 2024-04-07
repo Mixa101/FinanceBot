@@ -1,7 +1,7 @@
 from config import config
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-from app.handlers import router
+from handlers.handlers import router
 import asyncio, logging
 
 # включаем логирование чтобы не пропустить важные сообщения
@@ -20,3 +20,4 @@ async def main():
 
 if __name__=='__main__':
     asyncio.run(main())
+    

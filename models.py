@@ -3,6 +3,8 @@ from sqlalchemy import (Integer, String, MetaData, \
 
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import date
+""" ЗДЕСЬ НАХОДЯТСЯ ВСЕ МОДЕЛИ БАЗЫ ДАННЫХ """
+
 
 # используется для ORM как базовый класс таблиц
 Base = declarative_base()
@@ -30,3 +32,5 @@ class Finances(Base):
     __tablename__ = 'finances'
     id = Column(Integer, nullable=False)
     moneys = Column(Integer)
+    goal = Column(String, nullable=True)
+    goal_sum = Column(Integer, nullable=True)
