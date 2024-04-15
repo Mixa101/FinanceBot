@@ -4,3 +4,5 @@ handlers/__pycache__
 .env
 venv
 test.db
+test.__pycache__
+test.py

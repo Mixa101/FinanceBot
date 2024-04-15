@@ -33,3 +33,12 @@ class TypeFilter(Filter):    #Filter находится в aiogram.filters
             return True
         except:
             return False
+
+def goal_counter(avg_inc, avg_cons, budget, goal_cost):
+    needed_cost = goal_cost - budget
+    if needed_cost > 0:
+        avg_pls = avg_inc - avg_cons
+        return needed_cost // avg_pls
+    else:
+        return 'Ты че быкуешь?'
+    

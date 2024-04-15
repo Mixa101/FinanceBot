@@ -10,7 +10,7 @@ from handlers.goal_handler import goal_router
 
 # Опять же роутеры классная штука
 router = Router()
-
+# добавляем все роутеры
 router.include_router(income_router)
 router.include_router(cons_router)
 router.include_router(output_router)

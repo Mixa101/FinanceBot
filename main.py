@@ -1,4 +1,4 @@
-from config import config
+from modules.config import config
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from handlers.handlers import router
@@ -20,4 +20,3 @@ async def main():
 
 if __name__=='__main__':
     asyncio.run(main())
-    
