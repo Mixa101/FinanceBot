@@ -69,17 +69,19 @@ def output_cons(user_id):
             out_avg_per_week = sum(item[0] for item in avg_per_week) // 7
         except:
             out_avg_per_week = 'нету расходов в неделю'
-        
-        average_cons = get_average(session.query(func.sum(
-            Consumptions.consumptions)).filter(Consumptions.id == user_id).group_by(
-            Consumptions.data).all())
-        average_inc = get_average(session.query(func.sum(
-            Incomes.incomes)).filter(Incomes.id == user_id).group_by(
-            Incomes.data).all())
-        
+        try:
+            average_cons = get_average(session.query(func.sum(
+                Consumptions.consumptions)).filter(Consumptions.id == user_id).group_by(
+                Consumptions.data).all())
+            average_inc = get_average(session.query(func.sum(
+                Incomes.incomes)).filter(Incomes.id == user_id).group_by(
+                    Incomes.data).all())
+        except:
+            average_cons = 'нету расходов'
+            average_inc = 'нету доходов'
         goal_text = None
         
-        if balance.goal:
+        if balance.goal and average_cons != 'нету расходов':
             goal_text = Text(calculate_goal(user_id, average_cons, average_inc, balance.goal_sum))
         else:
             goal_text = Text('Цели нет!')
@@ -94,10 +96,11 @@ def output_income(user_id):
     start_date = end_date - timedelta(days=7)
     with Session() as session:
         balance = session.query(Finances).filter(Finances.id == user_id).first()
-        income = session.query(func.sum(Incomes.incomes)).filter(Incomes.id == user_id).group_by(Incomes.data).all()
-        avg_day = get_average(income)
-        average_cons = get_average(session.query(func.sum(Consumptions.consumptions)).filter(Consumptions.id == user_id).group_by(Consumptions.data).all())
-        average_per_week = None
+        try:
+            income = session.query(func.sum(Incomes.incomes)).filter(Incomes.id == user_id).group_by(Incomes.data).all()
+            avg_day = get_average(income)
+        except:
+            avg_day = 'нету доходов'
         try:
             average_per_week = session.query(func.sum(Incomes.incomes)).filter(
                 Incomes.data >= start_date, Incomes.data <= end_date, Incomes.id == user_id).group_by(Incomes.data).order_by(
@@ -105,9 +108,12 @@ def output_income(user_id):
             average_per_week = sum(item[0] for item in average_per_week) // 7
         except:
             average_per_week = 'нету доходов в неделю'
-        
+        try:
+            average_cons = get_average(session.query(func.sum(Consumptions.consumptions)).filter(Consumptions.id == user_id).group_by(Consumptions.data).all())
+        except:
+            average_cons = 'нету расходов'
         goal_text = None
-        if balance.goal:
+        if balance.goal and average_cons != 'нету расходов':
             goal_text = Text(calculate_goal(user_id, average_cons, avg_day, balance.goal_sum))
         else:
             goal_text = Text('Цели нет!')
