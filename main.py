@@ -1,22 +1,18 @@
-from modules.config import config
-from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
-from handlers.handlers import router
-import asyncio, logging
+from aiogram import types, Dispatcher, Bot, F
+import asyncio
+from handlers.main_router import router, not_exists_routers
+from config import config
 
-# включаем логирование чтобы не пропустить важные сообщения
-logging.basicConfig(level=logging.INFO)
-# обьект бота
 bot = Bot(token=config.bot_token.get_secret_value())
-# диспетчер
-dp = Dispatcher(storage=MemoryStorage())
+
+dp = Dispatcher()
 
 
-#полинг бота
 async def main():
-    #роутеры классная штука
     dp.include_router(router)
+    dp.include_router(not_exists_routers)
     await dp.start_polling(bot)
+    
 
 if __name__=='__main__':
     asyncio.run(main())
