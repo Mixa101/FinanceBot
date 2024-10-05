@@ -2,7 +2,7 @@ from data.config_data import engine, Session
 from data.models import Users, Incomes, Consumptions
 from aiogram.types import Message
 
-def user_exists(message : Message):
+def user_exists(message : Message) -> bool:
     with Session() as session:
         user = session.query(Users).filter(Users.user_id == message.from_user.id).first()
         if user:

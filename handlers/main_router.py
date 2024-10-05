@@ -16,7 +16,7 @@ async def wrong_message(message: types.Message):
     await message.answer(f'извините у меня нет такой команды как "{message.text}"')
 
 router = Router()
-router.message.filter(lambda message: user_exists(message))
+router.message.filter(user_exists)
 router.include_router(operational_routers)
 router.include_router(output_router)
 router.include_router(not_found_router)
