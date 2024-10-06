@@ -16,6 +16,11 @@ def group_dates(model):
         grouped[date_str] += i.sum
     return grouped
 
+def group_reasons(id) -> set:
+    reasons = get_cons(id)
+    reasons = set([i.reason for i in reasons])
+    return reasons
+    
 def calculate_avg_income(id):
     incomes = get_incomes(id)
     sum_of_incomes = sum([i.sum for i in incomes])

@@ -4,7 +4,7 @@ from data.data_getters import user_exists
 from aiogram.fsm.context import FSMContext
 from modules.states import Income, Consumption
 from aiogram.filters import StateFilter
-from modules.keyboards import main_keyboard
+from modules.keyboards import main_keyboard, create_reason_keyboard
 
 operational_routers = Router()
 # operational_routers.message.filter(lambda message: user_exists(message))
@@ -28,7 +28,8 @@ async def consumption(message : types.Message, state: FSMContext):
 @operational_routers.message(lambda x: x.text.isdigit() ,StateFilter("Consumption:enter_sum_of_cons"))
 async def reason_of_cons(message : types.Message, state: FSMContext):
     await state.update_data(sum_of_cons = int(message.text))
-    await message.answer('Введите причину расхода')
+    await message.answer('Введите причину расхода\nили выберите из существующих',
+                         reply_markup=create_reason_keyboard(message.from_user.id).as_markup(resize_keyboard=True))
     await state.set_state(Consumption.enter_reason_of_cons)
 
 @operational_routers.message(StateFilter("Consumption:enter_reason_of_cons"))
