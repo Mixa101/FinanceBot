@@ -1,6 +1,6 @@
 from aiogram import F, types, Router
 from data.data_setters import set_income, set_consumption
-from data.data_getters import user_exists
+# from data.data_getters import user_exists
 from aiogram.fsm.context import FSMContext
 from modules.states import Income, Consumption
 from aiogram.filters import StateFilter

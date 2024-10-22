@@ -4,5 +4,5 @@ from data.models import Base
 
 engine = create_engine('sqlite:///test.db')
 Base.metadata.create_all(engine)
-Session =  sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine)
 

@@ -20,11 +20,13 @@ async def start_handler(message: types.Message, state: FSMContext):
         await message.answer('введите бюджет: ')
         await state.set_state(Register.enter_budget)
 
+
 @start_router.message(lambda x: x.text.isdigit() ,StateFilter("Register:enter_budget"))
 async def enter_budget(message: types.Message, state: FSMContext):
     set_user(message.from_user.id, int(message.text))
     await message.reply('успешная регистрация!', reply_markup=main_keyboard)
     await state.clear()
+
 
 @start_router.message(StateFilter("Register:enter_budget"))
 async def wrong_budget(message: types.Message, state: FSMContext):

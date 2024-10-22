@@ -21,4 +21,10 @@ async def output_cons(message: types.Message):
     cons = calculate_avg_cons(message.from_user.id)
     await message.answer(f"сумма общего расхода: {cons[1]}\nсредний расход в неделю: {cons[0]}")
     reasons = group_reasons(message.from_user.id)
-    await message.answer(f"причины расходов {reasons}")
+    output_text = "\n".join(f"{reason}: {amount}%" for reason, amount in reasons.items())
+    await message.answer(output_text)
+
+# @output_router.message(F.text.lower() == 'тест')
+# async def test(message: types.Message):
+#     test = group_reasons(message.from_user.id)
+#     await message.answer(f'test\n{test}')

@@ -9,6 +9,7 @@ main_keyboard = ReplyKeyboardMarkup(keyboard=[
 ])
 def create_reason_keyboard(id):
     reasons = group_reasons(id)
+    reasons = [key for key, value in reasons.items()]
     reason_buttons = [KeyboardButton(text=i)for i in reasons]
     reason_builder = ReplyKeyboardBuilder()
     reason_builder.row(*reason_buttons, width = 4)

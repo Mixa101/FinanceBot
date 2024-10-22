@@ -1,6 +1,7 @@
-from data.data_getters import get_incomes, get_cons
+from data.data_getters import get_incomes, get_cons, get_cons_sum_fitlered_by_reasons
 from collections import defaultdict
 from datetime import datetime, timedelta
+from modules.functions import calculate_percent
 
 def filter_by_days(model):
     today = datetime.now().date()
@@ -16,10 +17,12 @@ def group_dates(model):
         grouped[date_str] += i.sum
     return grouped
 
-def group_reasons(id) -> set:
-    reasons = get_cons(id)
-    reasons = set([i.reason for i in reasons])
-    return reasons
+def group_reasons(id):
+    reasons = get_cons_sum_fitlered_by_reasons(id)
+    cons = get_cons(id)
+    cons = sum([i.sum for i in cons])
+    result = calculate_percent(reasons, cons)
+    return result
     
 def calculate_avg_income(id):
     incomes = get_incomes(id)
