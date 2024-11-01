@@ -9,8 +9,8 @@ dp = Dispatcher()
 
 
 async def main():
-    dp.include_router(router)
     dp.include_router(not_exists_routers)
+    dp.include_router(router)
     await dp.start_polling(bot)
     
 

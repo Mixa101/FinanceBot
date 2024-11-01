@@ -1,5 +1,6 @@
 from data.config_data import engine, Session
 from data.models import Users, Incomes, Consumptions
+from aiogram.filters import BaseFilter
 from aiogram.types import Message
 from sqlalchemy import func
 
@@ -10,6 +11,20 @@ def user_exists(message : Message) -> bool:
             return True
         else:
             return False
+
+class UserExists(BaseFilter):
+    def __init__(self, filter_type):
+        self.filter_type = filter_type
+    
+    async def __call__(self, message : Message):
+        with Session() as session:
+            user = session.query(Users).filter(Users.user_id == message.from_user.id).first()
+        if self.filter_type == 'for_exist':
+            return user is not None
+        
+        elif self.filter_type == 'for_not_exist':
+            return user is None
+        return False
 
 def get_budget(id):
     with Session() as session:
