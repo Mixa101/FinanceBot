@@ -26,18 +26,24 @@ def group_reasons(id):
     
 def calculate_avg_income(id):
     incomes = get_incomes(id)
-    sum_of_incomes = sum([i.sum for i in incomes])
-    filtered_incomes = filter_by_days(incomes)
-    sum_of_dates = group_dates(filtered_incomes)
-    avg_income = sum([j for i, j in sum_of_dates.items()]) // 7
-    result = [avg_income, sum_of_incomes]
-    return result
+    if incomes:
+        sum_of_incomes = sum([i.sum for i in incomes])
+        filtered_incomes = filter_by_days(incomes)
+        sum_of_dates = group_dates(filtered_incomes)
+        avg_income = sum([j for i, j in sum_of_dates.items()]) // 7
+        result = [avg_income, sum_of_incomes]
+        return result
+    else:
+        return None
 
 def calculate_avg_cons(id):
     cons = get_cons(id)
-    sum_of_cons = sum([i.sum for i in cons])
-    filtered_cons = filter_by_days(cons)
-    sum_of_dates = group_dates(filtered_cons)
-    avg_cons = sum([j for i, j in sum_of_dates.items()]) // 7
-    result = [avg_cons, sum_of_cons]
-    return result
+    if cons:
+        sum_of_cons = sum([i.sum for i in cons])
+        filtered_cons = filter_by_days(cons)
+        sum_of_dates = group_dates(filtered_cons)
+        avg_cons = sum([j for i, j in sum_of_dates.items()]) // 7
+        result = [avg_cons, sum_of_cons]
+        return result
+    else:
+        return None
